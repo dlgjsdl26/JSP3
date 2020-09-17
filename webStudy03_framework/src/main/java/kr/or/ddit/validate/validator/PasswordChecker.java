@@ -11,19 +11,28 @@ public class PasswordChecker implements ConstraintValidator<PasswordCheck, Strin
 	
 	@Override
 	public void initialize(PasswordCheck constraintAnnotation) {
-
 		this.constraint = constraintAnnotation;
 	}
+	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-
 		int min = constraint.min();
 		int max = constraint.max();
 		String regex = constraint.regex();
 		int length = value!=null?value.length():-1;
 		boolean valid = length>=min && length<=max && value.matches(regex);
-		
 		return valid;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

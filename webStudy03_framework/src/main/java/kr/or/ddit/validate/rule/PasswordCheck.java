@@ -18,9 +18,22 @@ public @interface PasswordCheck {
 	int min() default 4;
 	int max() default 8;
 	String regex() default "(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%&*]).*";
+	
 	String message() default "{kr.or.ddit.validate.rule.PasswordCheck.message}";
 	
-	 Class<?>[] groups() default { };
+	Class<?>[] groups() default { };
 
-	    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default { };
 }
+
+
+
+
+
+
+
+
+
+
+
+

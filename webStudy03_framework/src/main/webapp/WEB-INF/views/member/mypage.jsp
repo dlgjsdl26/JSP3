@@ -7,6 +7,16 @@
 <meta charset="UTF-8">
 <title>member/mypage.jsp</title>
 <jsp:include page="/includee/preScript.jsp" />
+<script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+
+	$(function(){
+		$("#reviseBtn").on("click", function(){
+			location.href="<%=request.getContextPath()%>/myDataUpdate.do"
+		})
+	})
+
+</script>
 </head>
 <body>
 	<!-- table 태그를 이용하여, 현재 로그인된 유저의 모든 정보를 출력. -->
@@ -90,6 +100,22 @@
 			<th>탈퇴여부</th>
 			<td><%=authMember.getMem_delete()%></td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="button" value="수정하기" id="reviseBtn"/>
+				<input type="button" value="탈퇴" id="deleteBtn"/>
+			</td>
+		</tr>
 	</table>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

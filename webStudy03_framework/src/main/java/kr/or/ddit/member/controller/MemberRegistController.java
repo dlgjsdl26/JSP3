@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,8 @@ import com.fasterxml.jackson.databind.util.BeanUtil;
 import kr.or.ddit.enumpkg.ServiceResult;
 import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.validate.CommonValidator;
+import kr.or.ddit.validate.InsertGroup;
 import kr.or.ddit.vo.MemberVO;
 
 @WebServlet("/registMember.do")
@@ -31,6 +34,7 @@ public class MemberRegistController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getRequestDispatcher("/WEB-INF/views/member/registForm.jsp").forward(req, resp);
+		
 	}
 
 	@Override
@@ -52,7 +56,8 @@ public class MemberRegistController extends HttpServlet {
 //		2. 검증(DB 스키마 구조 참고)
 		Map<String, StringBuffer> errors = new LinkedHashMap<>();
 		req.setAttribute("errors", errors);
-		boolean valid = validate(member, errors);
+		CommonValidator<MemberVO> validator = new CommonValidator<>();
+		boolean valid = validator.validate(member, errors, InsertGroup.class);
 		
 		String goPage = null;
 		boolean redirect = false;
@@ -93,4 +98,4 @@ public class MemberRegistController extends HttpServlet {
 
 	}
 
-	}
+}

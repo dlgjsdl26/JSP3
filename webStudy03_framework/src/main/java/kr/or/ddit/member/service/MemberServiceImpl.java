@@ -50,9 +50,8 @@ public class MemberServiceImpl implements IMemberService {
 	@Override
 	public MemberVO retrieveMember(String mem_id) {
 		MemberVO savedMember = memberDAO.selectMember(mem_id);
-		if(savedMember == null) {
-			throw new CustomException();
-		}
+		if(savedMember==null)
+			throw new CustomException( mem_id+"는 존재하지 않는 회원임.");
 		return savedMember;
 	}
 

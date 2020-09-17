@@ -19,7 +19,7 @@
 	정적 include : jsp 에 해당하는 서블릿 소스가 파싱되는 시점, 소스 자체가 인클루드. 
 		include 지시자(하나의 페이지를 대상으로함.), web.xml(jsp-config->include, 어플리케이션 전체를 대상으로 함) 
 	<%--@ include file="/03/standard.jsp" --%>
-	<%-- <%=test %> --%>
+<%-- 	<%=test %> --%>
 </pre>
 </body>
 </html>

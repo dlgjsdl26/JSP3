@@ -11,7 +11,7 @@
 	#top{
 		width: 100%;
 		height: 70px;
-		background-color: blue;
+		background-color: gold;
 	}
 	#top ul{
 		list-style: none;
@@ -36,7 +36,7 @@
 	#footer{
 		width: 100%;
 		height: 70px;
-		background-color: silver;
+		background-color: lightblue;
 		float: left;
 	}
 </style>

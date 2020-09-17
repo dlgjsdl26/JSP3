@@ -31,19 +31,33 @@ public class IdCheckController extends HttpServlet{
 		}
 		boolean validId = false;
 		try {
-		service.retrieveMember(inputId);
-		}catch(CustomException e) {
+			service.retrieveMember(inputId);
+		}catch (CustomException e) {
 			validId = true;
-		}
+		} 
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("valid", validId);
 		if(!validId) resultMap.put("useId", "추천아이디");
 		ObjectMapper mapper = new ObjectMapper();
 		try(
-				PrintWriter out = resp.getWriter();
+			PrintWriter out = resp.getWriter();
 		){
 			mapper.writeValue(out, resultMap);
 		}
-		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

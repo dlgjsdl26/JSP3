@@ -12,129 +12,22 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		var registForm = $("#registForm");
-		registForm.validate({
-				submitHandler:function(form){
-					let valid = $(form).data("validId");
-					if(!valid){
-						alert("아이디 중복 체크 하세요!");
-						valid=false;
-					}else{
-						form.submit();
-					}
-				}
-			});
-		var inInputTag = $("[name='mem_id']");
-		$("#registForm :input").addClass("form-control");
-		inInputTag.on("change", function(){
-			registForm.data("validId", false);
-			$(this).next('.idMsg').remove();
-		});
-		
-		$("#checkBtn").on("click", function(){
-			let inputId = inInputTag.val();
-			$.ajax({
-				url : "<%=request.getContextPath()%>/idCheck.do",
-				// inputId 파라미터로 중복 확인
-				data : {
-					inputId:inputId
-				},
-				method : "post",
-				dataType : "json", // Accept(request), Content-Type(response)
-				success : function(resp) {
-					if(resp.valid){
-						let msgTag = inInputTag.next(".idMsg");
-						if(msgTag.length==0){
-							inInputTag.after("<span class='idMsg'>아이디 사용가능</span>");
-						}
-						registForm.data("validId", true);
-					}else{
-						alert("아이디 중복, 바꾸셈.");
-						$("[name='mem_id']").focus();
-					}
-				},
-				error : function(errResp) {
-					console.log(errResp);
-				}
-			});
-		});
-		$("#zipSearchBtn").on("click", function(){
-			
-		});
-	
-	<%
-		String message = (String) request.getAttribute("message");
-		if (StringUtils.isNotBlank(message)) {
-	%>
-    	alert("<%=message%>");
-	<%}%>
-	});
-</script>
 </head>
 <jsp:useBean id="member" class="kr.or.ddit.vo.MemberVO" scope="request" />
 <jsp:useBean id="errors" class="java.util.LinkedHashMap" scope="request" />
 <body>
-	<form id="registForm" method="post" class="form-inline">
+<%
+	MemberVO authMember = (MemberVO)session.getAttribute("authMember");
+%>
+	<form action="<%= request.getContextPath() %>/myDataUpdate.do" id="registForm" method="post" class="form-inline">
 		<table class="table table-bordered">
-			<tr>
-				<th>아이디</th>
-				<td>
-				<div class="form-group">
-					<input type="text" required name="mem_id" value="${member.mem_id }" 
-							maxLength="15" data-msg="아이디 필수"/>
-					<button type="button" id="checkBtn" class="ml-3 btn btn-info">아이디중복체크</button>	
-					<span class="error"><%=errors.get("mem_id") %></span>
-				</div>
-				</td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td>
-				<div class="form-group">
-					<input type="text" required name="mem_pass" value="${member.mem_pass }" 
-						maxLength="15" data-msg="비밀번호 필수"/>
-					<span class='error'><%=errors.get("mem_pass") %></span>
-				</div>
-				</td>
-			</tr>
 			<tr>
 				<th>회원명</th>
 				<td>
 				<div class="form-group">
-					<input type="text" required name="mem_name" value="${member.mem_name }" 
+					<input type="text" required name="mem_name" value=<%=authMember.getMem_name() %> 
 							maxLength="20" data-msg="이름 필수"/>
 					<span class='error'><%=errors.get("mem_name") %></span>
-				</div>
-				</td>
-			</tr>
-			<tr>
-				<th>주민번호1</th>
-				<td>
-				<div class="form-group">
-					<input type="text" required name="mem_regno1" value="${member.mem_regno1 }" 
-						maxLength="6" pattern="[0-9]{6}" data-msg-required="주민번호 필수" data-msg-pattern="형식확인"/>
-					<span class='error'><%=errors.get("mem_regno1") %></span>
-				</div>
-				</td>
-			</tr>
-			<tr>
-				<th>주민번호2</th>
-				<td>
-				<div class="form-group">
-					<input type="text" required name="mem_regno2" value="${member.mem_regno2 }" 
-							maxLength="7"  pattern="[0-9]{7}" data-msg-required="주민번호 필수" data-msg-pattern="형식확인"/>
-					<span class='error'><%=errors.get("mem_regno2") %></span>
-				</div>
-				</td>
-			</tr>
-			<tr>
-				<th>생일</th>
-				<td>
-				<div class="form-group">
-					<input type="date" name="mem_bir" value="${member.mem_bir }" pattern="\d{4}-\d{2}-\d{2}"/>
-					<span class='error'><%=errors.get("mem_bir") %></span>
 				</div>
 				</td>
 			</tr>
@@ -142,7 +35,7 @@
 				<th>우편번호</th>
 				<td>
 				<div class="form-group">
-					<input type="text" required name="mem_zip" value="${member.mem_zip }" 
+					<input type="text" required name="mem_zip" value=<%=authMember.getMem_zip() %> 
 							maxLength="7" pattern="[0-9]{3}-[0-9]{3}" readonly 
 							data-msg-required="우편번호 필수" data-msg-pattern="형식확인"/>
 					<span class='error'><%=errors.get("mem_zip") %></span>
@@ -155,7 +48,7 @@
 				<th>주소1</th>
 				<td>
 				<div class="form-group">
-					<input type="text" class="col" required name="mem_add1" value="${member.mem_add1 }" 
+					<input type="text" class="col" required name="mem_add1" value=<%=authMember.getMem_add1() %>
 							maxLength="100" readonly data-msg="주소 필수"/>
 					<span class='error'><%=errors.get("mem_add1") %></span>
 				</div>
@@ -165,7 +58,7 @@
 				<th>주소2</th>
 				<td>
 				<div class="form-group">
-					<input type="text" class="col" required name="mem_add2" value="${member.mem_add2 }" 
+					<input type="text" class="col" required name="mem_add2" value=<%=authMember.getMem_add2() %> 
 							maxLength="80" readonly  data-msg="주소 필수"/>
 					<span class='error'><%=errors.get("mem_add2") %></span>
 				</div>
@@ -175,7 +68,7 @@
 				<th>집전번</th>
 				<td>
 				<div class="form-group">
-					<input type="text" required name="mem_hometel" value="${member.mem_hometel }" 
+					<input type="text" required name="mem_hometel" value=<%=authMember.getMem_hometel() %>
 							maxLength="14" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 							placeholder="000-000-0000"  
 							data-msg-required="집전번 필수" data-msg-pattern="전화번호 형식 확인"/>
@@ -187,7 +80,7 @@
 				<th>회사전번</th>
 				<td>
 				<div class="form-group">
-					<input type="text" required name="mem_comtel" value="${member.mem_comtel }" 
+					<input type="text" required name="mem_comtel" value=<%=authMember.getMem_comtel() %> 
 							maxLength="14"  pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" 
 							placeholder="000-000-0000"  
 							data-msg-required="회사전번 필수" data-msg-pattern="전화번호 형식 확인"/>
@@ -199,7 +92,7 @@
 				<th>휴대폰</th>
 				<td>
 				<div class="form-group">
-					<input type="text" name="mem_hp" value="${member.mem_hp }" 
+					<input type="text" name="mem_hp" value=<%=authMember.getMem_hp() %>
 							maxLength="15" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
 							placeholder="000-000-0000"  
 							data-msg-pattern="전화번호 형식 확인"/>
@@ -211,7 +104,7 @@
 				<th>이메일</th>
 				<td>
 				<div class="form-group">
-					<input type="email" required name="mem_mail" value="${member.mem_mail }" 
+					<input type="email" required name="mem_mail" value=<%=authMember.getMem_mail() %>
 						maxLength="40" data-msg="이메일 필수"/>
 					<span class='error'><%=errors.get("mem_mail") %></span>
 				</div>
@@ -221,7 +114,7 @@
 				<th>직업</th>
 				<td>
 				<div class="form-group">
-					<input type="text" name="mem_job" value="${member.mem_job }" maxLength="40" />
+					<input type="text" name="mem_job" value="<%=authMember.getMem_job() %> maxLength="40" />
 					<span class='error'><%=errors.get("mem_job") %></span>
 				</div>
 				</td>
@@ -230,7 +123,7 @@
 				<th>취미</th>
 				<td>
 				<div class="form-group">
-					<input type="text" name="mem_like" value="${member.mem_like }" maxLength="40" />
+					<input type="text" name="mem_like" value=<%=authMember.getMem_like() %> maxLength="40" />
 					<span class='error'><%=errors.get("mem_like") %></span>
 				</div>
 				</td>
@@ -239,7 +132,7 @@
 				<th>기념일</th>
 				<td>
 				<div class="form-group">
-					<input type="text" name="mem_memorial" value="${member.mem_memorial }" maxLength="40" />
+					<input type="text" name="mem_memorial" value=<%=authMember.getMem_memorial() %> maxLength="40" />
 					<span class='error'><%=errors.get("mem_memorial") %></span>
 				</div>
 				</td>
@@ -248,23 +141,15 @@
 				<th>기념일자</th>
 				<td>
 				<div class="form-group">
-					<input type="date" name="mem_memorialday" value="${member.mem_memorialday }" 
+					<input type="date" name="mem_memorialday" value=<%=authMember.getMem_memorialday() %>
 							pattern="\d{4}-\d{2}-\d{2}"/>
 					<span class='error'><%=errors.get("mem_memorialday") %></span>
 				</div>
 				</td>
 			</tr>
 			<tr>
-				<th>마일리지</th>
-				<td>기본마일리지</td>
-			</tr>
-			<tr>
-				<th>탈퇴여부</th>
-				<td>신규가입</td>
-			</tr>
-			<tr>
 				<td colspan="2">
-					<input type="submit" class="btn btn-primary" value="전송" /> 
+					<input type="submit" class="btn btn-primary" value="수정" /> 
 					<input type="reset" class="btn btn-warning" value="취소" />
 				</td>
 			</tr>
