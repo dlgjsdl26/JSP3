@@ -14,22 +14,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.or.ddit.commons.dao.IZipCodeSearchDAO;
 import kr.or.ddit.commons.dao.ZipCodeSearchDAOImpl;
+import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ZipCodeVO;
 
 @WebServlet("/zipSearch.do")
 public class ZipCodeSearchController extends HttpServlet{
-	IZipCodeSearchDAO searchDAO = ZipCodeSearchDAOImpl.getInstance();
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		String keyword = req.getParameter("keyword");
-		List<ZipCodeVO> zipCodeList = searchDAO.selectZipcodeList(keyword);
-		resp.setContentType("application/json;charset=UTF-8");
-		ObjectMapper mapper = new ObjectMapper();
-		try(
-			PrintWriter out = resp.getWriter();	
-		){
-			mapper.writeValue(out, zipCodeList);
-		}
-	}
+   IZipCodeSearchDAO searchDAO = ZipCodeSearchDAOImpl.getInstance();
+   @Override
+   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+      req.setCharacterEncoding("UTF-8");
+      String keyword = req.getParameter("keyword");
+      
+      PagingVO pagingVO = new PagingVO();
+      
+      pagingVO.setSearchWord(req.getParameter("dong"));
+      
+      List<ZipCodeVO> zipCodeList = searchDAO.selectZipcodeList(pagingVO);
+      resp.setContentType("application/json;charset=UTF-8");
+      ObjectMapper mapper = new ObjectMapper();
+      try(
+         PrintWriter out = resp.getWriter();   
+      ){
+         mapper.writeValue(out, zipCodeList);
+      }
+   }
 }

@@ -5,13 +5,17 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(of="zipcode")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of="zipcode")
 public class ZipCodeVO implements Serializable{
 	@NotBlank
 	@Size(max = 7)

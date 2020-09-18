@@ -20,10 +20,10 @@ public class ZipCodeSearchDAOImplTest {
 
 	@Test
 	public void testSelectZipcodeList() {
-		List<ZipCodeVO> zipList = dao.selectZipcodeList("대흥동");
-		assertNotNull(zipList);
-		assertNotEquals(0, zipList.size());
-		System.out.println(zipList);
+//		List<ZipCodeVO> zipList = dao.selectZipcodeList(pagingVO);
+//		assertNotNull(zipList);
+//		assertNotEquals(0, zipList.size());
+//		System.out.println(zipList);
 	}
 
 }
