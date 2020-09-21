@@ -2,8 +2,8 @@
 <Configuration status="WARN">
 <!-- appender : where -->
 <!-- layout : how -->
-<!-- logger : log message -->
-<!-- logging event level : debug info warn error fatal -->
+<!-- logger : log message 전달자 -->
+<!-- logging event level : debug < info < warn < error < fatal  -->
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>

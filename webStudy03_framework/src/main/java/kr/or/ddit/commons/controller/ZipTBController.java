@@ -23,31 +23,49 @@ import kr.or.ddit.vo.ZipCodeVO;
 
 @WebServlet("/searchZip.do")
 public class ZipTBController extends HttpServlet{
-   
-   IZipCodeSearchDAO dao = ZipCodeSearchDAOImpl.getInstance();
-   
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	   req.setCharacterEncoding("UTF-8");
-      String pageParam = req.getParameter("page");
-      PagingVO<ZipCodeVO> pagingVO = new PagingVO();
-      pagingVO.setSearchWord(req.getParameter("searchWord"));
-      int totalRecord = dao.selectTotalCount(pagingVO);
-      pagingVO.setTotalRecord(totalRecord);
-      int currentPage = 1;
-      if(StringUtils.isNotBlank(pageParam)&&StringUtils.isNumeric(pageParam)) {
-         currentPage =  Integer.parseInt(pageParam);
-      }
-      pagingVO.setCurrentPage(currentPage);
-      List<ZipCodeVO> zipList = dao.selectZipcodeList(pagingVO);
-      pagingVO.setData(zipList);
-      
-      resp.setContentType("application/json;charset=UTF-8");
-      try(
-         PrintWriter out = resp.getWriter();   
-      ){
-         ObjectMapper mapper = new ObjectMapper();
-         mapper.writeValue(out, pagingVO);
-      }
-   }
+	
+	IZipCodeSearchDAO dao = ZipCodeSearchDAOImpl.getInstance();
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		String pageParam = req.getParameter("page");
+		PagingVO<ZipCodeVO> pagingVO = new PagingVO<>();
+		pagingVO.getSearchVO().setSearchWord(req.getParameter("searchWord"));
+		int totalRecord = dao.selectTotalCount(pagingVO);
+		pagingVO.setTotalRecord(totalRecord);
+		int currentPage = 1;
+		if(StringUtils.isNotBlank(pageParam) && StringUtils.isNumeric(pageParam)) {
+			currentPage = Integer.parseInt(pageParam);
+		}
+		pagingVO.setCurrentPage(currentPage);
+		List<ZipCodeVO> zipList = dao.selectZipcodeList(pagingVO);
+		pagingVO.setData(zipList);
+		
+		resp.setContentType("application/json;charset=UTF-8");
+		try(
+			PrintWriter out = resp.getWriter();	
+		){
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.writeValue(out, pagingVO);
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

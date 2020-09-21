@@ -1,4 +1,4 @@
-package kr.or.ddit.member.controller;
+package kr.or.ddit.prod.controller;
 
 import java.io.IOException;
 
@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/leaveApp.do")
-public class MemberDeleteController extends HttpServlet{
+@WebServlet("/prod/prodView.do")
+public class ProdViewController extends HttpServlet{
+
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		
 	}
 }

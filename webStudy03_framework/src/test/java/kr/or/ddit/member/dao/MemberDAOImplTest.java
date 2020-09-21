@@ -10,10 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.PagingVO;
 
 public class MemberDAOImplTest {
 	IMemberDAO dao;
 	MemberVO testMember;
+	PagingVO<MemberVO> pagingVO;
 	@Before
 	public void setUp() throws Exception {
 		dao = MemberDAOImpl.getInstance();
@@ -30,6 +32,8 @@ public class MemberDAOImplTest {
 					.mem_hometel("000-000-0000")
 					.mem_mail("aa@naver.com")
 					.build();
+		pagingVO = new PagingVO<>();
+		pagingVO.setCurrentPage(1);
 	}
 
 	@Test
@@ -40,7 +44,8 @@ public class MemberDAOImplTest {
 
 	@Test
 	public void testSelectMemberList() {
-		List<MemberVO> list = dao.selectMemberList();
+		
+		List<MemberVO> list = dao.selectMemberList(pagingVO);
 		assertNotNull(list);
 		assertNotEquals(0, list.size());
 	}

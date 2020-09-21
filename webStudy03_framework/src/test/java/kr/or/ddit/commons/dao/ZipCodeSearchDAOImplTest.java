@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.ZipCodeVO;
 
 public class ZipCodeSearchDAOImplTest {
@@ -20,10 +21,12 @@ public class ZipCodeSearchDAOImplTest {
 
 	@Test
 	public void testSelectZipcodeList() {
-//		List<ZipCodeVO> zipList = dao.selectZipcodeList(pagingVO);
-//		assertNotNull(zipList);
-//		assertNotEquals(0, zipList.size());
-//		System.out.println(zipList);
+		PagingVO<ZipCodeVO> pagingVO = new PagingVO<>();
+		pagingVO.setCurrentPage(1);
+		List<ZipCodeVO> zipList = dao.selectZipcodeList(pagingVO);
+		assertNotNull(zipList);
+		assertNotEquals(0, zipList.size());
+		System.out.println(zipList);
 	}
 
 }
